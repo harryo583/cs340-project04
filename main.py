@@ -1,11 +1,13 @@
 import sys 
 import json 
+import time
 import subprocess
 import requests
 from urllib.parse import urlparse
+import maxminddb
 
 def scan_time(url):
-    pass
+    return time.time()
 
 def ipv4_addresses(url):
     try:
@@ -44,11 +46,19 @@ def ipv6_addresses(url):
     except Exception as e:
         return f"Error: {e}"
 
-def http_server():
-    pass
+def http_server(url):
+    try:
+        res = requests.get(f"http://{url}" if not url.startswith("http") else url, timeout=5)
+        return res.headers.get('Server', None)
+    except requests.RequestException:
+        return None
 
-def insecure_http():
-    pass
+def insecure_http(url):
+    try:
+        response = requests.get(f"http://{url}" if not url.startswith("http") else url, timeout=5)
+        return response.status_code == 200
+    except requests.RequestException:
+        return False
 
 def redirect_to_https(url):
     for i in range(10):
@@ -62,41 +72,89 @@ def redirect_to_https(url):
             break
     return False
     
+def hsts(url):
+    try:
+        response = requests.get(url if url.startswith("https") else f"https://{url}", timeout=5)
+        return 'Strict-Transport-Security' in response.headers
+    except requests.RequestException:
+        return False
 
-def hsts():
-    pass
+def tls_versions(url):
+    domain = urlparse(url).netloc or url
+    supported_tls = []
+    tls_versions = ['-tls1_2', '-tls1_3', '-tls1_1', '-tls1']
+    for version in tls_versions:
+        try:
+            subprocess.check_output(
+                ["openssl", "s_client", version, "-connect", f"{domain}:443"],
+                input=b"",
+                stderr=subprocess.DEVNULL,
+                timeout=5
+            )
+            supported_tls.append(version.replace('-', '').upper())
+        except subprocess.CalledProcessError:
+            continue
+        except subprocess.TimeoutExpired:
+            continue
+    return supported_tls
 
-def tls_versions():
-    pass
+def root_ca(url):
+    domain = urlparse(url).netloc or url
+    try:
+        output = subprocess.check_output(
+            ["openssl", "s_client", "-connect", f"{domain}:443"],
+            input=b"",
+            timeout=5
+        ).decode()
+        for line in output.split("\n"):
+            if "O =" in line:
+                return line.split("O =")[1].split(",")[0].strip()
+    except Exception:
+        return None
 
-def root_ca():
-    pass
 
 def rdns_names(url):
     address_list = ipv4_addresses(url)
-    res = []
+    rdns_results = []
     for address in address_list:
-        reverse_address = '.'.join(address.split('.')[::-1])
-        result = subprocess.check_output(["nslookup", reverse_address + '.in-addr.arpa'], timeout=2, stderr=subprocess.STDOUT)
-        rdns_names = []
-        
-        for line in result.splitlines():
-            if ""
-        
-        ipv4_list = []
-        for line in result.splitlines():
-            if "Address:" in line and "." in line:
-                parts = line.split(":")
-                if len(parts) > 1:
-                    ipv4_list.append(parts[1].strip())
-        ipv4_list = []
-    pass
+        try:
+            result = subprocess.check_output(["nslookup", address], timeout=5).decode("utf-8")
+            for line in result.splitlines():
+                if "name =" in line:
+                    rdns_results.append(line.split("name =")[1].strip())
+        except Exception:
+            continue
+    return rdns_results
 
-def rtt_range():
-    pass
 
-def geo_locations():
-    pass
+def rtt_range(url):
+    addresses = ipv4_addresses(url)
+    rtt_times = []
+    for address in addresses:
+        try:
+            start = time.time()
+            with socket.create_connection((address, 80), timeout=2):
+                end = time.time()
+            rtt_times.append((end - start) * 1000)  # Convert to milliseconds
+        except Exception:
+            continue
+    return [min(rtt_times), max(rtt_times)] if rtt_times else None
+
+
+def geo_locations(url):
+    try:
+        with maxminddb.open_database('GeoLite2-City.mmdb') as reader:
+            addresses = ipv4_addresses(url)
+            locations = []
+            for ip in addresses:
+                location = reader.get(ip)
+                if location:
+                    city = location.get('city', {}).get('names', {}).get('en', '')
+                    country = location.get('country', {}).get('names', {}).get('en', '')
+                    locations.append(f"{city}, {country}".strip(", "))
+            return list(set(locations))  # Remove duplicates
+    except Exception:
+        return []
 
 def scan(url):
     functions = [scan_time, ipv4_addresses, ipv6_addresses, http_server, insecure_http, redirect_to_https,\
