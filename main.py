@@ -2,10 +2,12 @@ import sys
 import json 
 import subprocess
 
-def scan_time():
+def scan_time(url):
     pass
 
-def ipv4_addresses():
+def ipv4_addresses(url):
+    result = subprocess.check_output(["nslookup", url, " 8.8.8.8"], timeout=2, stderr=subprocess.STDOUT).decode("utf-8")
+    print(result)
     pass
 
 def ipv6_addresses():
@@ -38,8 +40,19 @@ def rtt_range():
 def geo_locations():
     pass
 
-def scan():
-    pass
+def scan(url):
+    functions = [scan_time, ipv4_addresses, ipv6_addresses, http_server, insecure_http, redirect_to_https,\
+        hsts, tls_versions, root_ca, rdns_names, rtt_range, geo_locations]
+    
+    result = {}
+    
+    for function in functions:
+        try:
+            result[function.__name__] = function(url)
+        except Exception as e:
+            result[function.__name__] = f"Error: {str(e)}"
+    
+    return result
 
 def main(input_file, output_file):
     
