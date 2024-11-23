@@ -13,35 +13,47 @@ def scan_time(url):
 def ipv4_addresses(url):
     try:
         domain = urlparse(url).netloc or url
-        result = subprocess.check_output(["nslookup", domain, "8.8.8.8"], timeout=2, stderr=subprocess.STDOUT).decode("utf-8")
         ipv4_list = []
-        for line in result.splitlines():
-            if "Address:" in line and "." in line:
-                parts = line.split(":")
-                if len(parts) > 1:
-                    ipv4_list.append(parts[1].strip())
-        return ipv4_list[1:]  # Ignore the DNS server address
+        public_dns_resolvers = ["208.67.222.222", "1.1.1.1", "8.8.8.8", "8.26.56.26", "9.9.9.9", \
+            "64.6.65.6", "91.239.100.100", "185.228.168.168", "77.88.8.7", "156.154.70.1", \
+            "198.101.242.72", "176.103.130.130"]
+        for resolver in public_dns_resolvers:
+            result = subprocess.check_output(["nslookup", domain, resolver], timeout=2, stderr=subprocess.STDOUT).decode("utf-8")
+            sublist = []
+            for line in result.splitlines():
+                if "Address:" in line and "." in line:
+                    parts = line.split(":")
+                    if len(parts) > 1:
+                        sublist.append(parts[1].strip())
+            ipv4_list.extend(sublist[1:])  # Ignore the DNS server address
+        return ipv4_list
     except Exception:
         return []
 
 def ipv6_addresses(url):
     try:
         domain = urlparse(url).netloc or url
-        result = subprocess.check_output(["nslookup", "-type=AAAA", domain, "8.8.8.8"], timeout=2, stderr=subprocess.STDOUT).decode("utf-8")
         ipv6_list = []
-        for line in result.splitlines():
-            if "Address:" in line and ":" in line:  # Check for ":" indicating IPv6
-                parts = line.split(":")
-                if len(parts) > 1:
-                    ipv6_list.append(parts[1].strip())
-        return ipv6_list[1:]  # Ignore the DNS server address
+        public_dns_resolvers = ["208.67.222.222", "1.1.1.1", "8.8.8.8", "8.26.56.26", "9.9.9.9", \
+            "64.6.65.6", "91.239.100.100", "185.228.168.168", "77.88.8.7", "156.154.70.1", \
+            "198.101.242.72", "176.103.130.130"]
+        for resolver in public_dns_resolvers:
+            result = subprocess.check_output(["nslookup", "-type=AAAA", domain, resolver], timeout=2, stderr=subprocess.STDOUT).decode("utf-8")
+            sublist = []
+            for line in result.splitlines():
+                if "Address:" in line and ":" in line:  # Check for ":" indicating IPv6
+                    parts = line.split(":")
+                    if len(parts) > 1:
+                        sublist.append(parts[1].strip())
+            ipv6_list.extend(sublist[1:])  # Ignore the DNS server address
+        return ipv6_list
     except Exception:
         return []
 
 def http_server(url):
     try:
         res = requests.get(f"http://{url}" if not url.startswith("http") else url, timeout=5)
-        return res.headers.get('Server')
+        return res.headers.get("Server")
     except requests.RequestException:
         return None
 
@@ -56,7 +68,7 @@ def redirect_to_https(url):
     try:
         for _ in range(10):  # Allow up to 10 redirects
             res = requests.get(url, timeout=5)
-            if 300 <= res.status_code < 400:
+            if 300 <= res.status_code < 310: # change to 400?
                 new_url = res.headers.get('Location')
                 if new_url and new_url.startswith('https'):
                     return True
@@ -171,7 +183,7 @@ def main(input_file, output_file):
             results[domain] = scan(domain)
             
         with open(output_file, 'w') as f:
-            json.dump(results, f, indent=4)
+            json.dump(results, f, sort_key=True, indent=4)
             print(f"Scan results written to {output_file}")
     except FileNotFoundError:
         print(f"Error: file {input_file} not found")
