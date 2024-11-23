@@ -107,10 +107,7 @@ def root_ca(url):
     domain = urlparse(url).netloc or url
     try:
         output = subprocess.check_output(
-            ["openssl", "s_client", "-connect", f"{domain}:443"],
-            input=b"",
-            timeout=5
-        ).decode()
+            ["openssl", "s_client", "-connect", f"{domain}:443"], input=b"", timeout=5).decode()
         for line in output.split("\n"):
             if "O =" in line:
                 return line.split("O =")[1].split(",")[0].strip()
@@ -183,7 +180,7 @@ def main(input_file, output_file):
             results[domain] = scan(domain)
             
         with open(output_file, 'w') as f:
-            json.dump(results, f, sort_key=True, indent=4)
+            json.dump(results, f, sort_keys=False, indent=4)
             print(f"Scan results written to {output_file}")
     except FileNotFoundError:
         print(f"Error: file {input_file} not found")

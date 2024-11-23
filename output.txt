@@ -1,0 +1,74 @@
+{
+    "youtube.com": {
+        "scan_time": 1732347804.3680441,
+        "ipv4_addresses": null,
+        "ipv6_addresses": null,
+        "http_server": "ESF",
+        "insecure_http": true,
+        "redirect_to_https": null,
+        "hsts": true,
+        "tls_versions": [
+            "TLS1_2",
+            "TLS1_3",
+            "TLS1_1",
+            "TLS1"
+        ],
+        "root_ca": "Google Trust Services",
+        "rdns_names": null,
+        "rtt_range": null,
+        "geo_locations": null
+    },
+    "en.wikipedia.org": {
+        "scan_time": 1732347813.9426146,
+        "ipv4_addresses": null,
+        "ipv6_addresses": null,
+        "http_server": "mw-web.eqiad.main-5dc468848-tsbpw",
+        "insecure_http": true,
+        "redirect_to_https": null,
+        "hsts": true,
+        "tls_versions": [
+            "TLS1_2",
+            "TLS1_3"
+        ],
+        "root_ca": "Let's Encrypt",
+        "rdns_names": null,
+        "rtt_range": null,
+        "geo_locations": null
+    },
+    "twitter.com": {
+        "scan_time": 1732347823.8852894,
+        "ipv4_addresses": null,
+        "ipv6_addresses": null,
+        "http_server": "tsa_b",
+        "insecure_http": true,
+        "redirect_to_https": null,
+        "hsts": true,
+        "tls_versions": [
+            "TLS1_2",
+            "TLS1_3"
+        ],
+        "root_ca": "\"Twitter",
+        "rdns_names": null,
+        "rtt_range": null,
+        "geo_locations": null
+    },
+    "facebook.com": {
+        "scan_time": 1732347833.7405841,
+        "ipv4_addresses": null,
+        "ipv6_addresses": null,
+        "http_server": null,
+        "insecure_http": true,
+        "redirect_to_https": null,
+        "hsts": true,
+        "tls_versions": [
+            "TLS1_2",
+            "TLS1_3",
+            "TLS1_1",
+            "TLS1"
+        ],
+        "root_ca": "\"Meta Platforms",
+        "rdns_names": null,
+        "rtt_range": null,
+        "geo_locations": null
+    }
+}
