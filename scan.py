@@ -219,6 +219,5 @@ def main(input_file, output_file):
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
-        print("Usage: python3 scan.py <input_file> <output_file>")
         sys.exit(1)
     main(sys.argv[1], sys.argv[2])
