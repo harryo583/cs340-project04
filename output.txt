@@ -1,74 +1,156 @@
 {
     "youtube.com": {
-        "scan_time": 1732347804.3680441,
-        "ipv4_addresses": null,
-        "ipv6_addresses": null,
+        "scan_time": 1733096198.0,
+        "ipv4_addresses": [
+            "142.251.167.91",
+            "142.251.167.93",
+            "142.250.190.110",
+            "142.250.191.238",
+            "142.251.167.136",
+            "142.250.190.14",
+            "216.58.207.238",
+            "142.250.191.206",
+            "142.251.167.190",
+            "172.217.4.78",
+            "142.250.191.174"
+        ],
+        "ipv6_addresses": [
+            "2a00",
+            "2607"
+        ],
         "http_server": "ESF",
         "insecure_http": true,
-        "redirect_to_https": null,
+        "redirect_to_https": true,
         "hsts": true,
-        "tls_versions": [
-            "TLS1_2",
-            "TLS1_3",
-            "TLS1_1",
-            "TLS1"
-        ],
         "root_ca": "Google Trust Services",
-        "rdns_names": null,
-        "rtt_range": null,
-        "geo_locations": null
+        "rdns_names": [
+            "ww-in-f91.1e100.net",
+            "ww-in-f93.1e100.net",
+            "ord37s35-in-f14.1e100.net",
+            "ord38s32-in-f14.1e100.net",
+            "ww-in-f136.1e100.net",
+            "ord37s32-in-f14.1e100.net",
+            "arn09s19-in-f14.1e100.net",
+            "ord38s31-in-f14.1e100.net",
+            "ww-in-f190.1e100.net",
+            "ord38s30-in-f14.1e100.net"
+        ],
+        "rtt_range": [
+            1.18,
+            109.23
+        ],
+        "geo_locations": [
+            "Mountain View, United States",
+            "United States"
+        ]
     },
     "en.wikipedia.org": {
-        "scan_time": 1732347813.9426146,
-        "ipv4_addresses": null,
-        "ipv6_addresses": null,
-        "http_server": "mw-web.eqiad.main-5dc468848-tsbpw",
-        "insecure_http": true,
-        "redirect_to_https": null,
-        "hsts": true,
-        "tls_versions": [
-            "TLS1_2",
-            "TLS1_3"
+        "scan_time": 1733096254.51,
+        "ipv4_addresses": [
+            "185.15.59.224",
+            "208.80.154.224"
         ],
+        "ipv6_addresses": [
+            "2a02",
+            "2620"
+        ],
+        "http_server": "mw-web.eqiad.main-864bbfd546-jxkzq",
+        "insecure_http": true,
+        "redirect_to_https": true,
+        "hsts": true,
         "root_ca": "Let's Encrypt",
-        "rdns_names": null,
-        "rtt_range": null,
-        "geo_locations": null
+        "rdns_names": [
+            "text-lb.esams.wikimedia.org",
+            "text-lb.eqiad.wikimedia.org"
+        ],
+        "rtt_range": [
+            21.72,
+            91.52
+        ],
+        "geo_locations": [
+            "United States",
+            "Netherlands"
+        ]
     },
     "twitter.com": {
-        "scan_time": 1732347823.8852894,
-        "ipv4_addresses": null,
-        "ipv6_addresses": null,
+        "scan_time": 1733096282.88,
+        "ipv4_addresses": [
+            "104.244.42.129",
+            "104.244.42.65",
+            "104.244.42.1",
+            "104.244.42.193"
+        ],
         "http_server": "tsa_b",
         "insecure_http": true,
-        "redirect_to_https": null,
+        "redirect_to_https": true,
         "hsts": true,
-        "tls_versions": [
-            "TLS1_2",
-            "TLS1_3"
+        "root_ca": "DigiCert Inc",
+        "rtt_range": [
+            17.63,
+            20.71
         ],
-        "root_ca": "\"Twitter",
-        "rdns_names": null,
-        "rtt_range": null,
-        "geo_locations": null
+        "geo_locations": [
+            "United States"
+        ]
     },
     "facebook.com": {
-        "scan_time": 1732347833.7405841,
-        "ipv4_addresses": null,
-        "ipv6_addresses": null,
-        "http_server": null,
-        "insecure_http": true,
-        "redirect_to_https": null,
-        "hsts": true,
-        "tls_versions": [
-            "TLS1_2",
-            "TLS1_3",
-            "TLS1_1",
-            "TLS1"
+        "scan_time": 1733096315.05,
+        "ipv4_addresses": [
+            "31.13.66.35",
+            "157.240.249.35",
+            "57.144.174.1",
+            "157.240.251.35",
+            "157.240.254.35"
         ],
-        "root_ca": "\"Meta Platforms",
-        "rdns_names": null,
-        "rtt_range": null,
-        "geo_locations": null
+        "ipv6_addresses": [
+            "2a03"
+        ],
+        "insecure_http": true,
+        "redirect_to_https": true,
+        "hsts": true,
+        "root_ca": "DigiCert Inc",
+        "rdns_names": [
+            "edge-star-mini-shv-01-iad3.facebook.com",
+            "edge-star-mini-shv-01-ord5.facebook.com",
+            "edge-star-mini-shv-03-ord5.facebook.com",
+            "edge-star-mini-shv-01-fra5.facebook.com",
+            "edge-star-mini-shv-02-ord5.facebook.com"
+        ],
+        "rtt_range": [
+            1.22,
+            107.84
+        ],
+        "geo_locations": [
+            "Ireland",
+            "Belgium",
+            "United States"
+        ]
+    },
+    "ebay.com": {
+        "scan_time": 1733096359.42,
+        "ipv4_addresses": [
+            "23.44.111.23",
+            "23.45.46.210",
+            "23.44.111.35",
+            "23.45.46.205"
+        ],
+        "http_server": "ebay-proxy-server",
+        "insecure_http": true,
+        "redirect_to_https": true,
+        "hsts": true,
+        "root_ca": "Sectigo Limited",
+        "rdns_names": [
+            "a23-44-111-23.deploy.static.akamaitechnologies.com",
+            "a23-45-46-210.deploy.static.akamaitechnologies.com",
+            "a23-44-111-35.deploy.static.akamaitechnologies.com",
+            "a23-45-46-205.deploy.static.akamaitechnologies.com"
+        ],
+        "rtt_range": [
+            2.12,
+            19.92
+        ],
+        "geo_locations": [
+            "United States"
+        ]
     }
 }
