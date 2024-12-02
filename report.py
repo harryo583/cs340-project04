@@ -40,7 +40,7 @@ def main(input_file, output_file):
             if rtt_range and isinstance(rtt_range, list) and len(rtt_range) == 2:
                 min_rtt, max_rtt = rtt_range
                 rtt_data.append((domain, min_rtt, max_rtt))
-        rtt_data.sort(key=lambda x: x[1])  # Sort by min RTT
+        rtt_data.sort(key=lambda x: x[1])
 
         f.write("RTT Ranges for All Domains (Fastest to Slowest):\n")
         table = Texttable()
@@ -129,7 +129,6 @@ def main(input_file, output_file):
         def percentage(part, whole):
             return 100 * float(part) / float(whole) if whole else 0
 
-        # TLS versions table
         f.write("Percentage of Domains Supporting Each TLS Version:\n")
         table = Texttable()
         table.set_cols_align(["l", "r"])
@@ -142,7 +141,6 @@ def main(input_file, output_file):
         f.write(table.draw())
         f.write("\n\n")
 
-        # Other features table
         f.write("Percentage of Domains Supporting Various Features:\n")
         table = Texttable()
         table.set_cols_align(["l", "r"])
