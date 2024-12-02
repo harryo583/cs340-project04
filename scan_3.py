@@ -64,14 +64,14 @@ def ipv6_addresses(url):
 
 def http_server(url):
     try:
-        res = requests.get(f"http://{url}" if not url.startswith("http") else url, timeout=5)
+        res = requests.get(f"http://{url}" if not url.startswith("http") else url, timeout=2)
         return res.headers.get("Server")
     except Exception:
         return None
 
 def insecure_http(url):
     try:
-        response = requests.get(f"http://{url}" if not url.startswith("http") else url, timeout=5)
+        response = requests.get(f"http://{url}" if not url.startswith("http") else url, timeout=2)
         return response.status_code == 200
     except Exception:
         return False
@@ -84,7 +84,7 @@ def redirect_to_https(url):
             else:
                 url = f"http://{url}"
         for _ in range(10):  # allow up to 10 redirects
-            res = requests.get(url, timeout=5, allow_redirects=False)
+            res = requests.get(url, timeout=2, allow_redirects=False)
             if 300 <= res.status_code < 310:
                 new_url = res.headers.get('Location')
                 if new_url and new_url.startswith('https'):
@@ -98,7 +98,7 @@ def redirect_to_https(url):
 
 def hsts(url):
     try:
-        response = requests.get(url if url.startswith("https") else f"https://{url}", timeout=5, allow_redirects=True)
+        response = requests.get(url if url.startswith("https") else f"https://{url}", timeout=2, allow_redirects=True)
         return 'Strict-Transport-Security' in response.headers
     except Exception:
         return False
@@ -112,7 +112,7 @@ def tls_versions(url):
             subprocess.check_output(
                 ["openssl", "s_client", version, "-connect", f"{domain}:443"],
                 stderr=subprocess.DEVNULL,
-                timeout=5
+                timeout=2
             )
             supported_tls.append(version.replace('-', '').upper())
         except subprocess.TimeoutExpired:
@@ -129,7 +129,7 @@ def root_ca(url):
     try:
         output = subprocess.check_output(
             ["openssl", "s_client", "-showcerts", "-connect", f"{domain}:443"],
-            input=b"", stderr=subprocess.DEVNULL, timeout=5
+            input=b"", stderr=subprocess.DEVNULL, timeout=2
         ).decode()
         root_ca = None
         in_certificate = False
