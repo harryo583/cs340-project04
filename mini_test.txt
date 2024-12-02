@@ -1,2 +1,5 @@
 youtube.com
 en.wikipedia.org
+northwestern.edu
+it.eecs.northwestern.edu
+uchicago.edu

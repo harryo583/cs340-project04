@@ -47,7 +47,7 @@ def ipv6_addresses(url):
             sublist = []
             for line in result.splitlines():
                 if "Address:" in line and ":" in line:  # check for ":" indicating IPv6
-                    parts = line.split(":")
+                    parts = line.split(": ")
                     if len(parts) > 1:
                         sublist.append(parts[1].strip())
                 for address in sublist[1:]:  # ignore the DNS server address
