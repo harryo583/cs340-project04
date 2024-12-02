@@ -98,7 +98,7 @@ def main(input_file, output_file):
         ###################################
         # Section 5: Percentage Statistics
         ###################################
-        tls_versions_list = ['SSL2', 'SSL3', 'TLS1', 'TLS1_1', 'TLS1_2', 'TLS1_3']
+        tls_versions_list = ['SSLv2', 'SSLv3', 'TLSv1.0', 'TLSv1.1', 'TLSv1.2', 'TLSv1.3']
         tls_version_counts = {version: 0 for version in tls_versions_list}
         insecure_http_count = 0
         redirect_to_https_count = 0

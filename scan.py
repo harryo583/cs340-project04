@@ -105,23 +105,42 @@ def hsts(url):
 
 def tls_versions(url):
     domain = urlparse(url).netloc or url
+    if not domain:
+        raise ValueError("Invalid URL provided")
+    
+    domain = domain.split(':')[0]
+    
     supported_tls = []
     tls_versions = ['-ssl2', '-ssl3', '-tls1', '-tls1_1', '-tls1_2', '-tls1_3']
+    tls_map = {'-ssl2': 'SSLv2',
+               '-ssl3': 'SSLv3',
+               '-tls1': 'TLSv1.0',
+               '-tls1_1': 'TLSv1.1',
+               '-tls1_2': 'TLSv1.2',
+               '-tls1_3': 'TLSv1.3'}
+
     for version in tls_versions:
         try:
-            subprocess.check_output(
-                ["openssl", "s_client", version, "-connect", f"{domain}:443"],
+            # Run OpenSSL s_client with the given TLS/SSL version
+            result = subprocess.run(
+                ["openssl", "s_client", "-connect", f"{domain}:443", version],
+                stdout=subprocess.PIPE,
                 stderr=subprocess.DEVNULL,
                 timeout=2
             )
-            supported_tls.append(version.replace('-', '').upper())
+            # Check if connection was successful
+            if "CONNECTED" in result.stdout.decode():
+                supported_tls.append(tls_map[version])
         except subprocess.TimeoutExpired:
             continue
-        except FileNotFoundError as e:
-            raise e
-        except Exception:
+        except FileNotFoundError:
+            raise FileNotFoundError("OpenSSL is not installed or not in the PATH")
+        except subprocess.CalledProcessError:
+            pass
+        except Exception as e:
             continue
     return supported_tls
+
 
 def root_ca(url):
     parsed_url = urlparse(url)
