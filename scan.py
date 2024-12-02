@@ -228,13 +228,15 @@ def scan(url):
     except FileNotFoundError as e:
         print(f"Error: Required command-line tool is missing: {str(e)}", file=sys.stderr)
     except Exception:
-        pass
+        result['ipv6_addresses'] = []
 
     # Compute http_server
     try:
         value = http_server(url)
         if value:
             result['http_server'] = value
+        else:
+            result['http_server'] = None
     except Exception:
         pass
 
@@ -264,6 +266,8 @@ def scan(url):
         value = tls_versions(url)
         if value:
             result['tls_versions'] = value
+        else:
+            result['tls_versions'] = None
     except FileNotFoundError as e:
         print(f"Error: Required command-line tool is missing: {str(e)}", file=sys.stderr)
     except Exception:
@@ -285,6 +289,8 @@ def scan(url):
         value = rdns_names(url, ipv4s)
         if value:
             result['rdns_names'] = value
+        else:
+            result['rdns_names'] = []
     except Exception:
         pass
 
@@ -294,7 +300,7 @@ def scan(url):
         if value:
             result['rtt_range'] = value
     except Exception:
-        pass
+        result['rtt_range'] = None
 
     # geo_locations(url, ipv4s)
     try:
